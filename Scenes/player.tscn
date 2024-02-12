@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://eapprvpnh7ai"]
+
+[ext_resource type="Script" path="res://Scenes/player.gd" id="1_ft6wh"]
+[ext_resource type="Texture2D" uid="uid://b34d3yj1vah6y" path="res://Assets/Player/Reaper.png" id="2_4sprm"]
+[ext_resource type="Texture2D" uid="uid://bxpi71mag508w" path="res://Assets/Player/scythe.png" id="2_128m8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xu6rm"]
+radius = 3.0
+height = 10.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8uqpy"]
+radius = 5.0
+height = 16.0
+
+[node name="player" type="CharacterBody2D"]
+script = ExtResource("1_ft6wh")
+metadata/_edit_lock_ = true
+
+[node name="playerLegsCollision" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 5)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_xu6rm")
+metadata/_edit_lock_ = true
+
+[node name="Scythe" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(0, 6)
+rotation = 1.5708
+texture = ExtResource("2_128m8")
+offset = Vector2(0, 1)
+flip_v = true
+
+[node name="Character" type="Sprite2D" parent="."]
+position = Vector2(-1.19209e-07, 0)
+texture = ExtResource("2_4sprm")
+metadata/_edit_lock_ = true
+
+[node name="playerCamera" type="Camera2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Body" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+metadata/_edit_lock_ = true
+
+[node name="playerBodyCollision" type="CollisionShape2D" parent="Body"]
+visible = false
+shape = SubResource("CapsuleShape2D_8uqpy")
+metadata/_edit_lock_ = true
