@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2ff8pv3qv0ip"]
+
+[ext_resource type="Texture2D" uid="uid://c0xuvxsqfix22" path="res://Assets/Collectables/SmallWheatDrop.png" id="1_4suxp"]
+
+[sub_resource type="GDScript" id="GDScript_m8w85"]
+script/source = "extends Area2D
+
+
+
+func _on_area_entered(area):
+	if area.name == \"Body\":
+		Game.wheatAmountInventory += 1
+		var tween = get_tree().create_tween()
+		var tween1 = get_tree().create_tween()
+		tween.tween_property(self, \"position\", position - Vector2(0,30), 0.3)
+		tween1.tween_property(self, \"modulate:a\", 0, 0.3)
+		tween.tween_callback(queue_free)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bklq2"]
+size = Vector2(11, 12)
+
+[node name="WheatDrop" type="Area2D"]
+collision_layer = 16
+collision_mask = 2
+script = SubResource("GDScript_m8w85")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_bklq2")
+debug_color = Color(0.623529, 0.52549, 0.211765, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_4suxp")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
