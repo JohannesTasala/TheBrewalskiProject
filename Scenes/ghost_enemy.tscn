@@ -1,0 +1,151 @@
+[gd_scene load_steps=17 format=3 uid="uid://bu4xuqf03csv2"]
+
+[ext_resource type="Script" path="res://Scenes/ghost_enemy.gd" id="1_i6ivi"]
+[ext_resource type="Script" path="res://Scripts/MyHurtBox.gd" id="1_rusaf"]
+[ext_resource type="Texture2D" uid="uid://7daifienfsnm" path="res://Assets/Enemies/Ghost-Sheet.png" id="2_fh300"]
+[ext_resource type="Script" path="res://Scenes/EnemyHealthBarGhost.gd" id="4_a708a"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kskmu"]
+radius = 6.0
+height = 16.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xysq"]
+atlas = ExtResource("2_fh300")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvd7m"]
+atlas = ExtResource("2_fh300")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mrpfk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4xysq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvd7m")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cnjgq"]
+radius = 7.0
+height = 18.0
+
+[sub_resource type="Animation" id="Animation_np1t7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_f5sha"]
+resource_name = "hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1.10957),
+"update": 1,
+"values": [1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jws6m"]
+_data = {
+"RESET": SubResource("Animation_np1t7"),
+"hurt": SubResource("Animation_f5sha")
+}
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_3n02e"]
+size = Vector2(20, 3)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_d505d"]
+size = Vector2(20, 3)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oag4c"]
+radius = 80.0062
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vmo73"]
+radius = 7.0
+height = 18.0
+
+[node name="GhostEnemy" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 11
+script = ExtResource("1_i6ivi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_kskmu")
+metadata/_edit_lock_ = true
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_mrpfk")
+
+[node name="MyHurtBox" type="Area2D" parent="Sprite"]
+script = ExtResource("1_rusaf")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/MyHurtBox"]
+shape = SubResource("CapsuleShape2D_cnjgq")
+metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jws6m")
+}
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." node_paths=PackedStringArray("ghostEnemy")]
+z_as_relative = false
+offset_left = -10.0
+offset_top = -12.0
+offset_right = 14.0
+offset_bottom = -8.0
+value = 100.0
+texture_under = SubResource("PlaceholderTexture2D_3n02e")
+texture_progress = SubResource("PlaceholderTexture2D_d505d")
+tint_under = Color(0.176471, 0.176471, 0.176471, 1)
+tint_progress = Color(0.752941, 0, 0.184314, 1)
+script = ExtResource("4_a708a")
+ghostEnemy = NodePath("..")
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 11
+monitorable = false
+metadata/_edit_lock_ = true
+
+[node name="DetectionShape" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("CircleShape2D_oag4c")
+debug_color = Color(0.54902, 0.486275, 0.0588235, 0.0823529)
+metadata/_edit_lock_ = true
+
+[node name="DealDamage" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+metadata/_edit_lock_ = true
+
+[node name="DamageArea" type="CollisionShape2D" parent="DealDamage"]
+shape = SubResource("CapsuleShape2D_vmo73")
+debug_color = Color(1, 0, 0.121569, 0.145098)
+metadata/_edit_lock_ = true
+
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]
+[connection signal="body_exited" from="PlayerDetection" to="." method="_on_player_detection_body_exited"]
+[connection signal="area_entered" from="DealDamage" to="." method="_on_deal_damage_area_entered"]
+[connection signal="area_exited" from="DealDamage" to="." method="_on_deal_damage_area_exited"]

@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://tqymmp3k3mhq"]
+
+[ext_resource type="Script" path="res://Scenes/wheat_crop.gd" id="1_flney"]
+[ext_resource type="Texture2D" uid="uid://cdo26ltqnjf3w" path="res://Assets/Map/WheatOnGround.png" id="1_ppgwd"]
+[ext_resource type="Script" path="res://Scripts/MyHurtBox.gd" id="2_plhn3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3esl"]
+atlas = ExtResource("1_ppgwd")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5fur"]
+atlas = ExtResource("1_ppgwd")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dh8pb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3esl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5fur")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obf8t"]
+size = Vector2(14, 15)
+
+[node name="WheatCrop" type="Node2D"]
+script = ExtResource("1_flney")
+
+[node name="Wheat" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_dh8pb")
+
+[node name="MyHurtBox" type="Area2D" parent="."]
+script = ExtResource("2_plhn3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MyHurtBox"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_obf8t")
