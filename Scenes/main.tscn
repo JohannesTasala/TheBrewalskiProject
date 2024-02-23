@@ -10,7 +10,14 @@ offset_left = 110.0
 offset_top = 26.0
 offset_right = 210.0
 offset_bottom = 57.0
-text = "Start"
+text = "New Game"
+
+[node name="LoadGame" type="Button" parent="."]
+offset_left = 110.0
+offset_top = 60.0
+offset_right = 210.0
+offset_bottom = 91.0
+text = "Load Game"
 
 [node name="Quit" type="Button" parent="."]
 offset_left = 110.0
@@ -20,4 +27,5 @@ offset_bottom = 126.0
 text = "Quit"
 
 [connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="LoadGame" to="." method="_on_load_game_pressed"]
 [connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]

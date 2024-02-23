@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=3 uid="uid://dl67b55aiku1w"]
+
+[ext_resource type="Texture2D" uid="uid://dnabr2myltjvi" path="res://Assets/Enemies/Ember/ProjectileRed.png" id="1_qmvjj"]
+
+[sub_resource type="GDScript" id="GDScript_l34e3"]
+script/source = "extends Area2D
+
+
+@export var speed = 140
+@onready var player := get_node(\"/root/world/Player/Player\")
+
+var attackDamage = 10
+var vel = Vector2()
+
+func _ready():
+	set_physics_process(true)
+
+func start(pos, angle):
+	set_rotation(angle)
+	set_position(pos)
+	vel = Vector2(speed, 0).rotated(angle)
+	
+func _physics_process(delta):
+	set_position(get_position() + vel * delta)
+	
+func DamagePlayer():
+	if player.has_method(\"take_damage\"):
+		player.take_damage(attackDamage)
+	
+
+func _on_area_entered(area):
+	if area.name == \"Body\":
+		DamagePlayer()
+		queue_free()
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hk217"]
+radius = 2.0
+
+[node name="RedProjectile" type="Area2D"]
+collision_layer = 8
+collision_mask = 2
+script = SubResource("GDScript_l34e3")
+
+[node name="projectileShape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hk217")
+
+[node name="projectileSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_qmvjj")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -5.96046e-08)
+scale = Vector2(0.1, 0.1)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

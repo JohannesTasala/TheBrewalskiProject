@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://cueny20gq6yqb"]
+
+[ext_resource type="Script" path="res://Scenes/ember_enemy.gd" id="1_2uh6v"]
+[ext_resource type="Texture2D" uid="uid://khabfxppi6cl" path="res://Assets/Enemies/Ember/EmberEnemy.png" id="1_x6hfm"]
+[ext_resource type="Script" path="res://Scripts/MyHurtBox.gd" id="3_reg3x"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_72dhy"]
+size = Vector2(20, 3)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_awtn7"]
+size = Vector2(20, 3)
+
+[sub_resource type="GDScript" id="GDScript_wapi1"]
+script/source = "extends TextureProgressBar
+
+@export var emberEnemy: EmberEnemy
+
+
+func _ready():
+	emberEnemy.healthChanged.connect(update)
+	update()
+
+
+
+func update():
+	value = emberEnemy.currentHealth * 100 / emberEnemy.maxHealth
+	
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_70ajx"]
+radius = 160.003
+
+[node name="EmberEnemy" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 11
+script = ExtResource("1_2uh6v")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_x6hfm")
+
+[node name="MyHurtBox" type="Area2D" parent="Sprite2D"]
+script = ExtResource("3_reg3x")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Sprite2D/MyHurtBox"]
+polygon = PackedVector2Array(6, 6, 2, 9, -4, 9, -7, 6, -7, -1, 2, -9, 6, -9)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+modulate = Color(0.305882, 0.321569, 1, 0.215686)
+self_modulate = Color(0.301961, 0, 0.87451, 1)
+polygon = PackedVector2Array(-3, 8, -6, 5, -6, 0, 3, -8, 5, -8, 5, 5, 1, 8)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." node_paths=PackedStringArray("emberEnemy")]
+z_index = 1
+z_as_relative = false
+offset_left = -10.0
+offset_top = -12.0
+offset_right = 14.0
+offset_bottom = -8.0
+value = 100.0
+texture_under = SubResource("PlaceholderTexture2D_72dhy")
+texture_progress = SubResource("PlaceholderTexture2D_awtn7")
+tint_under = Color(0.176471, 0.176471, 0.176471, 1)
+tint_progress = Color(0.752941, 0, 0.184314, 1)
+script = SubResource("GDScript_wapi1")
+emberEnemy = NodePath("..")
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("CircleShape2D_70ajx")
+
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]
+[connection signal="body_exited" from="PlayerDetection" to="." method="_on_player_detection_body_exited"]

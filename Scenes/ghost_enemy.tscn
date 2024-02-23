@@ -7,7 +7,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kskmu"]
 radius = 6.0
-height = 16.0
+height = 12.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4xysq"]
 atlas = ExtResource("2_fh300")
@@ -86,11 +86,13 @@ radius = 7.0
 height = 18.0
 
 [node name="GhostEnemy" type="CharacterBody2D"]
+z_index = 1
 collision_layer = 8
 collision_mask = 11
 script = ExtResource("1_i6ivi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
 shape = SubResource("CapsuleShape2D_kskmu")
 metadata/_edit_lock_ = true
 
@@ -111,6 +113,7 @@ libraries = {
 }
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="." node_paths=PackedStringArray("ghostEnemy")]
+z_index = 1
 z_as_relative = false
 offset_left = -10.0
 offset_top = -12.0

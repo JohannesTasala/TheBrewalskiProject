@@ -9,7 +9,7 @@ signal healthChanged
 var maxHealth = 40
 var currentHealth = maxHealth
 var SPEED = 40
-#var player
+
 var chase = false
 
 var ableToAttack = false
