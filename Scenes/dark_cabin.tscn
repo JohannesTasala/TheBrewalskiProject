@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch8nk53jct5dc"]
+
+[ext_resource type="Texture2D" uid="uid://31enxb7gs25o" path="res://Assets/Map/dark_cabin.png" id="1_f2vwk"]
+[ext_resource type="Texture2D" uid="uid://bg2qcc6xj8mp6" path="res://Assets/Map/dark_cabin_roof.png" id="1_uduj6"]
+
+[node name="DarkCabin" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="roof" type="Sprite2D" parent="StaticBody2D"]
+z_index = 3
+texture = ExtResource("1_uduj6")
+
+[node name="cabin" type="Sprite2D" parent="StaticBody2D"]
+texture = ExtResource("1_f2vwk")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+self_modulate = Color(1, 1, 1, 0.419608)
+polygon = PackedVector2Array(40, 79, -40, 79, -40, 65, -40, 12, 0, -2, 40, 12, 40, 65)

@@ -2,6 +2,7 @@ class_name MyHitBox
 extends Area2D
 
 @export var damage = 10;
+@onready var animation_player := $"../playerAnimation"
 
 var isAttacking = false
 #How many seconds the melee attack lasts
@@ -23,7 +24,9 @@ func _process(delta):
 		
 		get_node("HitBox").disabled = false
 		get_node("Sprite2D").visible = true
+		animation_player.play("melee")
 		await get_tree().create_timer(attackTime).timeout
+		animation_player.play("RESET")
 		get_node("HitBox").disabled = true
 		get_node("Sprite2D").visible = false
 		isAttacking = false

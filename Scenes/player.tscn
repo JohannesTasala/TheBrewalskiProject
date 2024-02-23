@@ -1,15 +1,126 @@
-[gd_scene load_steps=15 format=3 uid="uid://eapprvpnh7ai"]
+[gd_scene load_steps=28 format=3 uid="uid://eapprvpnh7ai"]
 
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_oy7bm"]
-[ext_resource type="Texture2D" uid="uid://b34d3yj1vah6y" path="res://Assets/Player/Reaper.png" id="2_4sprm"]
-[ext_resource type="Texture2D" uid="uid://bxpi71mag508w" path="res://Assets/Player/scythe.png" id="2_128m8"]
+[ext_resource type="Texture2D" uid="uid://ccrv5o17aq22" path="res://Assets/Player/reaper-scythe.png" id="2_k38g8"]
+[ext_resource type="Texture2D" uid="uid://cxhos831bivgs" path="res://Assets/Player/reaper-melee-animation.png" id="3_8wspa"]
 [ext_resource type="Script" path="res://Scripts/MyHitBox.gd" id="5_ji8o0"]
 [ext_resource type="Script" path="res://Scenes/HealthBarPlayer.gd" id="5_o6i0c"]
 [ext_resource type="Texture2D" uid="uid://csh64oskx8eli" path="res://Assets/UI-Assets/WheatInventory.png" id="6_3mfos"]
+[ext_resource type="PackedScene" uid="uid://cfl140qvr5tty" path="res://Scenes/pause_menu.tscn" id="7_43ocy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xu6rm"]
 radius = 3.0
 height = 10.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwueu"]
+atlas = ExtResource("3_8wspa")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sengd"]
+atlas = ExtResource("3_8wspa")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07fi2"]
+atlas = ExtResource("3_8wspa")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7nabf"]
+atlas = ExtResource("3_8wspa")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwc18"]
+atlas = ExtResource("3_8wspa")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sclkq"]
+atlas = ExtResource("3_8wspa")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n7tiu"]
+atlas = ExtResource("3_8wspa")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_51ljm"]
+atlas = ExtResource("3_8wspa")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q2jys"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_k38g8")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uwueu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sengd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07fi2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7nabf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qwc18")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sclkq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n7tiu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_51ljm")
+}],
+"loop": false,
+"name": &"melee",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_frt54"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_0hd6m"]
+resource_name = "melee"
+length = 0.3
+step = 0.0375
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0375, 0.075, 0.1125, 0.15, 0.1875, 0.225),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0l8v6"]
+_data = {
+"RESET": SubResource("Animation_frt54"),
+"melee": SubResource("Animation_0hd6m")
+}
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8uqpy"]
 radius = 5.0
@@ -48,7 +159,7 @@ func _process(delta):
 "
 
 [node name="Player" type="CharacterBody2D"]
-z_index = 1
+z_index = 2
 collision_layer = 2
 collision_mask = 9
 script = ExtResource("1_oy7bm")
@@ -61,19 +172,16 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_xu6rm")
 metadata/_edit_lock_ = true
 
-[node name="Scythe" type="Sprite2D" parent="."]
-z_index = 1
-position = Vector2(0, 6)
-rotation = 1.5708
-texture = ExtResource("2_128m8")
-offset = Vector2(0, 1)
-flip_v = true
-metadata/_edit_lock_ = true
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(5, -4)
+sprite_frames = SubResource("SpriteFrames_q2jys")
+animation = &"melee"
 
-[node name="Character" type="Sprite2D" parent="."]
-position = Vector2(-1.19209e-07, 0)
-texture = ExtResource("2_4sprm")
-metadata/_edit_lock_ = true
+[node name="playerAnimation" type="AnimationPlayer" parent="."]
+root_node = NodePath("../PlayerSprite")
+libraries = {
+"": SubResource("AnimationLibrary_0l8v6")
+}
 
 [node name="playerCamera" type="Camera2D" parent="."]
 metadata/_edit_lock_ = true
@@ -89,6 +197,7 @@ metadata/_edit_lock_ = true
 
 [node name="MyHitBox" type="Area2D" parent="."]
 script = ExtResource("5_ji8o0")
+metadata/_edit_lock_ = true
 
 [node name="HitBox" type="CollisionShape2D" parent="MyHitBox"]
 position = Vector2(10, 0)
@@ -140,3 +249,6 @@ offset_bottom = 14.0
 grow_horizontal = 0
 label_settings = SubResource("LabelSettings_1b6eh")
 script = SubResource("GDScript_owtp8")
+
+[node name="pauseMenu" parent="UI" node_paths=PackedStringArray("player") instance=ExtResource("7_43ocy")]
+player = NodePath("../..")

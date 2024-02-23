@@ -36,6 +36,6 @@ func take_damage(amount: int):
 
 #Timer and code to "Respawn" the wheat
 func respawn_crop():
-	await get_tree().create_timer(respawnTime).timeout
+	await get_tree().create_timer(respawnTime, false).timeout
 	currentHealth = maxHealth
 	animation_player.frame = 0

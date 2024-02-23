@@ -6,7 +6,7 @@ var player
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("This is the world!")
-	player = get_node("$Player/Player")
+	player = get_node("/root/world/Player/Player")
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
