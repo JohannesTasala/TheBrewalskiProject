@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://eapprvpnh7ai"]
+[gd_scene load_steps=34 format=3 uid="uid://eapprvpnh7ai"]
 
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_oy7bm"]
 [ext_resource type="Texture2D" uid="uid://ccrv5o17aq22" path="res://Assets/Player/reaper-scythe.png" id="2_k38g8"]
@@ -7,6 +7,10 @@
 [ext_resource type="Script" path="res://Scenes/HealthBarPlayer.gd" id="5_o6i0c"]
 [ext_resource type="Texture2D" uid="uid://csh64oskx8eli" path="res://Assets/UI-Assets/WheatInventory.png" id="6_3mfos"]
 [ext_resource type="PackedScene" uid="uid://cfl140qvr5tty" path="res://Scenes/pause_menu.tscn" id="7_43ocy"]
+[ext_resource type="PackedScene" uid="uid://b4mrmoj241p5q" path="res://Scenes/Ui/exp_ui.tscn" id="8_rhaml"]
+[ext_resource type="Texture2D" uid="uid://1vlmh8kw6twf" path="res://Assets/Collectables/beer_glass.png" id="9_blltd"]
+[ext_resource type="AudioStream" uid="uid://cgscbff7c5p5y" path="res://Assets/Sounds/drinking-sound1.wav" id="10_8v6oh"]
+[ext_resource type="AudioStream" uid="uid://dvner8p7045ud" path="res://Assets/Sounds/melee-sound (1).wav" id="11_ydtdy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xu6rm"]
 radius = 3.0
@@ -132,6 +136,8 @@ height = 24.0
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ldk2g"]
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_03lhr"]
+
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7v1px"]
 size = Vector2(64, 8)
 
@@ -156,6 +162,20 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	text = str(Game.wheatAmountInventory)
+"
+
+[sub_resource type="GDScript" id="GDScript_lo83n"]
+script/source = "extends Label
+
+
+
+func _ready():
+	pass # Replace with function body.
+
+
+
+func _process(delta):
+	text = str(Game.beerAmount)
 "
 
 [node name="Player" type="CharacterBody2D"]
@@ -184,6 +204,7 @@ libraries = {
 }
 
 [node name="playerCamera" type="Camera2D" parent="."]
+zoom = Vector2(0.8, 0.8)
 metadata/_edit_lock_ = true
 
 [node name="Body" type="Area2D" parent="."]
@@ -212,13 +233,21 @@ scale = Vector2(14, 24)
 texture = SubResource("PlaceholderTexture2D_ldk2g")
 metadata/_edit_lock_ = true
 
+[node name="Crosshair" type="Sprite2D" parent="MyHitBox"]
+texture = SubResource("PlaceholderTexture2D_03lhr")
+
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ExpUi" parent="UI" node_paths=PackedStringArray("player") instance=ExtResource("8_rhaml")]
+mouse_filter = 2
+player = NodePath("../..")
 
 [node name="HealthBar" type="TextureProgressBar" parent="UI" node_paths=PackedStringArray("player")]
 offset_left = 16.0
 offset_top = 4.0
 offset_right = 80.0
 offset_bottom = 12.0
+mouse_filter = 2
 texture_under = SubResource("PlaceholderTexture2D_7v1px")
 texture_progress = SubResource("PlaceholderTexture2D_vvh4l")
 tint_under = Color(0.192157, 0, 0.00784314, 1)
@@ -234,6 +263,7 @@ offset_left = -32.0
 offset_top = 2.0
 offset_bottom = 18.0
 grow_horizontal = 0
+mouse_filter = 2
 texture = ExtResource("6_3mfos")
 stretch_mode = 2
 
@@ -252,3 +282,36 @@ script = SubResource("GDScript_owtp8")
 
 [node name="pauseMenu" parent="UI" node_paths=PackedStringArray("player") instance=ExtResource("7_43ocy")]
 player = NodePath("../..")
+
+[node name="TextureRectBeer" type="TextureRect" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -31.0
+offset_top = 20.0
+offset_bottom = 40.0
+grow_horizontal = 0
+texture = ExtResource("9_blltd")
+stretch_mode = 2
+
+[node name="beerAmount" type="Label" parent="UI/TextureRectBeer"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -15.0
+offset_top = 3.0
+offset_right = -2.0
+offset_bottom = 16.0
+grow_horizontal = 0
+label_settings = SubResource("LabelSettings_1b6eh")
+script = SubResource("GDScript_lo83n")
+
+[node name="AudioPlayers" type="Node2D" parent="."]
+
+[node name="AudioDrink" type="AudioStreamPlayer2D" parent="AudioPlayers"]
+stream = ExtResource("10_8v6oh")
+
+[node name="AudioMelee" type="AudioStreamPlayer2D" parent="AudioPlayers"]
+stream = ExtResource("11_ydtdy")
+volume_db = -5.157

@@ -40,3 +40,13 @@ func _on_save_game_pressed():
 func _on_load_game_pressed():
 	Utils.loadGame()
 	get_tree().change_scene_to_file("res://Scenes/world.tscn")
+
+
+func _on_main_menu_pressed():
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://Scenes/main.tscn")
+
+
+func _on_input_type_button_item_selected(index):
+	if index != -1:
+		Game.INPUT_SCHEME = index

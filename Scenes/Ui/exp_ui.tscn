@@ -1,0 +1,49 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4mrmoj241p5q"]
+
+[ext_resource type="Script" path="res://Scenes/Ui/exp_ui.gd" id="1_0roe3"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pduoq"]
+size = Vector2(128, 6)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_yvfxn"]
+size = Vector2(128, 6)
+
+[node name="ExpUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0roe3")
+
+[node name="ExpBar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -10.0
+offset_right = 64.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+step = 0.1
+texture_under = SubResource("PlaceholderTexture2D_pduoq")
+texture_progress = SubResource("PlaceholderTexture2D_yvfxn")
+tint_under = Color(0.113725, 0.105882, 0.101961, 1)
+tint_progress = Color(0.207843, 0.580392, 0.85098, 1)
+
+[node name="LevelUi" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0

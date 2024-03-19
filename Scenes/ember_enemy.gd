@@ -65,7 +65,12 @@ func take_damage(amount: int):
 	
 	#check if health is 0 or less and if true kill the enemy
 	if currentHealth <= 0:
-		queue_free()
+		Death()
+		
+
+func Death():
+	Game.AddExp(30)
+	queue_free()
 
 
 func _on_player_detection_body_entered(body):
