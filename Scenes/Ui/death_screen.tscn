@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8peb5v7no613"]
+
+[ext_resource type="Script" path="res://Scenes/Ui/death_screen.gd" id="1_mlm43"]
+
+[node name="DeathScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mlm43")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="DeathText" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "You Died"
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Respawn" type="Button" parent="MarginContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+action_mode = 0
+text = "Respawn"
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+action_mode = 0
+text = "RageQuit"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonContainer/Respawn" to="." method="_on_respawn_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonContainer/Quit" to="." method="_on_quit_pressed"]

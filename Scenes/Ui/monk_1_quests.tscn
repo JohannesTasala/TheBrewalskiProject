@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgjr3f2opl8lu"]
+
+[ext_resource type="Script" path="res://Scenes/Ui/monk_1_quests.gd" id="1_824uq"]
+
+[node name="Monk1Quests" type="Control"]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_824uq")
+
+[node name="BoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="QuestLabel" type="Label" parent="BoxContainer"]
+layout_mode = 2
+text = "Example text 5/6"
+
+[node name="buttonContainer" type="HBoxContainer" parent="BoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Yes" type="Button" parent="BoxContainer/buttonContainer"]
+modulate = Color(0, 0.560784, 0.129412, 1)
+layout_mode = 2
+text = "Yes"
+
+[node name="No" type="Button" parent="BoxContainer/buttonContainer"]
+modulate = Color(0.839216, 0, 0.145098, 1)
+layout_mode = 2
+text = "No"
+
+[connection signal="pressed" from="BoxContainer/buttonContainer/Yes" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="BoxContainer/buttonContainer/No" to="." method="_on_no_pressed"]

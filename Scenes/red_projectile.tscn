@@ -7,13 +7,19 @@ script/source = "extends Area2D
 
 
 @export var speed = 140
+
+
 @onready var player := get_node(\"/root/world/Player/Player\")
+#@onready var player := get_node(\"../../Player/Player\")
+#@onready var player := get_node(\"../world/Player\").get_node(\"%Player\")
+#@onready var player := get_node(\"%Player\")
 
 var attackDamage = 10
 var vel = Vector2()
 
 func _ready():
 	set_physics_process(true)
+	
 
 func start(pos, angle):
 	set_rotation(angle)

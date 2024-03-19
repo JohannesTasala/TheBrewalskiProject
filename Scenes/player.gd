@@ -4,6 +4,7 @@ class_name Player
 signal playerHealthChanged
 signal pauseGameSignal
 
+@onready var audio = $AudioPlayers/AudioDrink
 
 
 var walkSpeed = 100.0
@@ -11,10 +12,9 @@ var sprintSpeed = 150.0
 var SPEED
 
 
-
-
 func _ready():
 	set_motion_mode(CharacterBody2D.MOTION_MODE_FLOATING)
+	
 
 func _physics_process(delta):
 	
@@ -44,6 +44,9 @@ func _physics_process(delta):
 	if Game.playerCurrentHP <= 0:
 		playerDeath()
 		
+	if Input.is_action_just_pressed("heal"):
+		healPlayer(75)
+		
 	if Input.is_action_just_pressed("pause"):
 		pauseGameSignal.emit()	
 	
@@ -51,11 +54,27 @@ func take_damage(amount: int):
 	#currentHealth = currentHealth - amount
 	Game.playerCurrentHP -= amount
 	playerHealthChanged.emit()
+	
+
+func healPlayer(amount: int):
+	#should also check that is hp already full, if so dont heal
+	if Game.beerAmount > 0 and Game.playerCurrentHP < Game.playerMaxHP:
+		Game.beerAmount -= 1
+		Game.playerCurrentHP += amount
+		if Game.playerCurrentHP > Game.playerMaxHP:
+			Game.playerCurrentHP = Game.playerMaxHP
+		playerHealthChanged.emit()
+		audio.play()
+		
 
 func playerDeath():
 	print("player has died")
 	#if the player dies, reset HP to maxHP and set Wheat amount to 0
 	Game.playerCurrentHP = Game.playerMaxHP
 	Game.wheatAmountInventory = 0
+
 	queue_free()
-	get_tree().change_scene_to_file("res://Scenes/main.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Ui/death_screen.tscn")
+	
+	
+

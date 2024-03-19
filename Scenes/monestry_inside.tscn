@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://b3sudjm7x5g1a"]
+
+[ext_resource type="Script" path="res://Scenes/monestry_inside.gd" id="1_pc8tm"]
+[ext_resource type="PackedScene" uid="uid://eapprvpnh7ai" path="res://Scenes/Player.tscn" id="2_4eagu"]
+[ext_resource type="PackedScene" uid="uid://bt1y065fsqata" path="res://Scenes/monk.tscn" id="3_pk3ir"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2glx0"]
+size = Vector2(336, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jhje1"]
+size = Vector2(20, 165.5)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_le8an"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3pend"]
+radius = 14.0357
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_hudsm"]
+
+[node name="MonestryInside" type="Node2D"]
+script = ExtResource("1_pc8tm")
+
+[node name="walls" type="StaticBody2D" parent="."]
+collision_mask = 3
+
+[node name="wall1" type="CollisionShape2D" parent="walls"]
+position = Vector2(168, 0)
+shape = SubResource("RectangleShape2D_2glx0")
+
+[node name="wall2" type="CollisionShape2D" parent="walls"]
+position = Vector2(168, 147)
+shape = SubResource("RectangleShape2D_2glx0")
+
+[node name="wall3" type="CollisionShape2D" parent="walls"]
+position = Vector2(-10, 73)
+shape = SubResource("RectangleShape2D_jhje1")
+
+[node name="wall4" type="CollisionShape2D" parent="walls"]
+position = Vector2(346, 74)
+shape = SubResource("RectangleShape2D_jhje1")
+
+[node name="Sprite2D" type="Sprite2D" parent="walls"]
+position = Vector2(-7.75, 63.5)
+scale = Vector2(16.5, 161)
+texture = SubResource("PlaceholderTexture2D_le8an")
+
+[node name="Sprite2D2" type="Sprite2D" parent="walls"]
+position = Vector2(345, 63.5)
+scale = Vector2(16.5, 161)
+texture = SubResource("PlaceholderTexture2D_le8an")
+
+[node name="Sprite2D3" type="Sprite2D" parent="walls"]
+position = Vector2(169.75, 140.5)
+scale = Vector2(340.5, 7)
+texture = SubResource("PlaceholderTexture2D_le8an")
+
+[node name="Sprite2D4" type="Sprite2D" parent="walls"]
+position = Vector2(167.5, -3.5)
+scale = Vector2(345, 27)
+texture = SubResource("PlaceholderTexture2D_le8an")
+
+[node name="Door" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
+position = Vector2(24, 136)
+shape = SubResource("CircleShape2D_3pend")
+debug_color = Color(0.447059, 0.596078, 0, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="Door"]
+modulate = Color(0.427451, 0.470588, 0, 1)
+position = Vector2(24, 137)
+scale = Vector2(16, 4.5)
+texture = SubResource("PlaceholderTexture2D_hudsm")
+
+[node name="Player" type="Node2D" parent="."]
+position = Vector2(24, 122)
+
+[node name="Player" parent="Player" instance=ExtResource("2_4eagu")]
+
+[node name="NPC" type="Node2D" parent="."]
+
+[node name="Monk" parent="." instance=ExtResource("3_pk3ir")]
+position = Vector2(99, 34)
+
+[connection signal="area_entered" from="Door" to="." method="_on_door_area_entered"]
+[connection signal="area_exited" from="Door" to="." method="_on_door_area_exited"]

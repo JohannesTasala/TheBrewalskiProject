@@ -4,6 +4,8 @@ class_name GhostEnemy
 @onready var animation_player := $AnimationPlayer
 @onready var player := get_node("../../Player/Player")
 
+
+
 signal healthChanged
 
 var maxHealth = 40
@@ -28,7 +30,7 @@ func take_damage(amount: int):
 	
 	#check if health is 0 or less and if true kill the enemy
 	if currentHealth <= 0:
-		queue_free()
+		Death()
 
 
 func _physics_process(delta):
@@ -56,6 +58,11 @@ func AttackPlayer():
 	justAttacked = true
 	await get_tree().create_timer(attackTime).timeout
 	justAttacked = false
+	
+
+func Death():
+	Game.AddExp(25)
+	queue_free()
 	
 
 
