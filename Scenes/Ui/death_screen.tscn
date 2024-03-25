@@ -38,11 +38,15 @@ layout_mode = 2
 
 [node name="Respawn" type="Button" parent="MarginContainer/VBoxContainer/ButtonContainer"]
 layout_mode = 2
+focus_neighbor_right = NodePath("../Quit")
+focus_next = NodePath("../Quit")
 action_mode = 0
 text = "Respawn"
 
 [node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/ButtonContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Respawn")
+focus_previous = NodePath("../Respawn")
 action_mode = 0
 text = "RageQuit"
 

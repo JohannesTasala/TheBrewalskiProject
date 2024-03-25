@@ -30,11 +30,15 @@ alignment = 1
 [node name="Yes" type="Button" parent="BoxContainer/buttonContainer"]
 modulate = Color(0, 0.560784, 0.129412, 1)
 layout_mode = 2
+focus_neighbor_right = NodePath("../No")
+focus_next = NodePath("../No")
 text = "Yes"
 
 [node name="No" type="Button" parent="BoxContainer/buttonContainer"]
 modulate = Color(0.839216, 0, 0.145098, 1)
 layout_mode = 2
+focus_neighbor_left = NodePath("../Yes")
+focus_previous = NodePath("../Yes")
 text = "No"
 
 [connection signal="pressed" from="BoxContainer/buttonContainer/Yes" to="." method="_on_yes_pressed"]

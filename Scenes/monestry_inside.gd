@@ -10,7 +10,7 @@ func _ready():
 func _process(delta):
 	pass
 	
-func _unhandled_key_input(event):
+func _unhandled_input(event):
 	if event.is_action_pressed("interact") and nearDoor == true:
 		print("exited the monestry")
 		StageManager.changeStage(StageManager.world)

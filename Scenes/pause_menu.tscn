@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cfl140qvr5tty"]
+[gd_scene load_steps=3 format=3 uid="uid://cfl140qvr5tty"]
 
 [ext_resource type="Script" path="res://Scenes/pause_menu.gd" id="1_pc1dr"]
+[ext_resource type="PackedScene" uid="uid://bb2328jn20m3h" path="res://Scenes/Ui/volume_slider.tscn" id="2_e34lk"]
 
 [node name="pauseMenu" type="Control"]
 process_mode = 2
@@ -20,23 +21,30 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -48.0
-offset_top = -85.5
-offset_right = 48.0
-offset_bottom = 85.5
+offset_left = -82.0
+offset_top = -87.0
+offset_right = 125.0
+offset_bottom = 131.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.8, 0.8)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
 [node name="Resume" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_bottom = NodePath("../Save Game")
+focus_next = NodePath("../Save Game")
 text = "Resume
 "
 
 [node name="Save Game" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Resume")
+focus_neighbor_bottom = NodePath("../volume_slider")
+focus_next = NodePath("../volume_slider")
+focus_previous = NodePath("../Resume")
 text = "Save Game
 "
 
@@ -45,6 +53,19 @@ title = "Saved!"
 initial_position = 1
 size = Vector2i(268, 100)
 dialog_text = "The game was saved succesfully!"
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="volume_slider" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_e34lk")]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../Save Game")
+focus_neighbor_bottom = NodePath("../GridContainer/InputTypeButton")
+focus_next = NodePath("../GridContainer/InputTypeButton")
+focus_previous = NodePath("../Save Game")
+bus_name = "sfx"
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -56,11 +77,12 @@ text = "Input Type
 "
 
 [node name="InputTypeButton" type="OptionButton" parent="MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_top = NodePath("../../Save Game")
+focus_neighbor_top = NodePath("../../volume_slider")
 focus_neighbor_bottom = NodePath("../../MainMenu")
 focus_next = NodePath("../../MainMenu")
-focus_previous = NodePath("../../Save Game")
+focus_previous = NodePath("../../volume_slider")
 item_count = 2
 selected = 0
 popup/item_0/text = "Keyboard"
@@ -70,10 +92,16 @@ popup/item_1/id = 1
 
 [node name="MainMenu" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../GridContainer/InputTypeButton")
+focus_neighbor_bottom = NodePath("../Quit")
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../GridContainer/InputTypeButton")
 text = "Return to main menu"
 
 [node name="Quit" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../MainMenu")
+focus_previous = NodePath("../MainMenu")
 text = "Quit"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="MarginContainer/VBoxContainer/Quit"]
@@ -88,6 +116,7 @@ progress will be lost."
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Save Game" to="." method="_on_save_game_pressed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/volume_slider" to="." method="_on_volume_slider_value_changed"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/GridContainer/InputTypeButton" to="." method="_on_input_type_button_item_selected"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
