@@ -13,6 +13,7 @@ func _ready():
 	quitB.disabled = true
 	await get_tree().create_timer(1.5).timeout
 	showButtons()
+	respawnB.grab_focus()
 
 
 func showButtons():

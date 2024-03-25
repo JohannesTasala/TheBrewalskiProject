@@ -48,6 +48,7 @@ text = "Press \"E\""
 position = Vector2(0, -9)
 stream = ExtResource("2_8eh6x")
 volume_db = -15.471
+bus = &"sfx"
 area_mask = 3
 
 [node name="Monk1Quests" parent="." instance=ExtResource("3_qd8a3")]

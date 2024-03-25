@@ -14,7 +14,7 @@ func _physics_process(delta):
 	move_and_slide()
 
 
-func _unhandled_key_input(event):
+func _unhandled_input(event):
 	if event.is_action_pressed("interact") and nearPlayer == true:
 		print("interacted with monk")
 		audio.play()

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ccrv5o17aq22" path="res://Assets/Player/reaper-scythe.png" id="2_k38g8"]
 [ext_resource type="Texture2D" uid="uid://cxhos831bivgs" path="res://Assets/Player/reaper-melee-animation.png" id="3_8wspa"]
 [ext_resource type="Script" path="res://Scripts/MyHitBox.gd" id="5_ji8o0"]
+[ext_resource type="Texture2D" uid="uid://bvbeydtwculi2" path="res://Assets/UI-Assets/crosshair.png" id="5_lcs4g"]
 [ext_resource type="Script" path="res://Scenes/HealthBarPlayer.gd" id="5_o6i0c"]
 [ext_resource type="Texture2D" uid="uid://csh64oskx8eli" path="res://Assets/UI-Assets/WheatInventory.png" id="6_3mfos"]
 [ext_resource type="PackedScene" uid="uid://cfl140qvr5tty" path="res://Scenes/pause_menu.tscn" id="7_43ocy"]
@@ -136,8 +137,6 @@ height = 24.0
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ldk2g"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_03lhr"]
-
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7v1px"]
 size = Vector2(64, 8)
 
@@ -234,7 +233,7 @@ texture = SubResource("PlaceholderTexture2D_ldk2g")
 metadata/_edit_lock_ = true
 
 [node name="Crosshair" type="Sprite2D" parent="MyHitBox"]
-texture = SubResource("PlaceholderTexture2D_03lhr")
+texture = ExtResource("5_lcs4g")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -311,7 +310,9 @@ script = SubResource("GDScript_lo83n")
 
 [node name="AudioDrink" type="AudioStreamPlayer2D" parent="AudioPlayers"]
 stream = ExtResource("10_8v6oh")
+bus = &"sfx"
 
 [node name="AudioMelee" type="AudioStreamPlayer2D" parent="AudioPlayers"]
 stream = ExtResource("11_ydtdy")
 volume_db = -5.157
+bus = &"sfx"

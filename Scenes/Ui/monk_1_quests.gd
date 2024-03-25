@@ -4,6 +4,7 @@ extends Control
 @onready var QuestScene = $"."
 @onready var questLabel = $BoxContainer/QuestLabel
 @onready var buttons = $BoxContainer/buttonContainer
+@onready var yesB = $BoxContainer/buttonContainer/Yes
 
 var tempQuestNumber
 var tempQuestProgress
@@ -55,6 +56,7 @@ func quest1():
 		questLabel.text = str("Can you get me ", quest1Goal," wheats?")
 		questLabel.show()
 		buttons.show()
+		yesB.grab_focus()
 	elif Quest.questAccepted == true:
 		#this is quest 1 progress
 		tempQuestProgress = Game.wheatAmountInventory + Quest.questProgress
@@ -81,6 +83,7 @@ func quest2():
 		questLabel.text = str("Can you get me ", quest2Goal, " wheats?")
 		questLabel.show()
 		buttons.show()
+		yesB.grab_focus()
 	elif Quest.questAccepted == true:
 		#this is quest 2 progress
 		tempQuestProgress = Game.wheatAmountInventory + Quest.questProgress

@@ -1,6 +1,9 @@
 extends Node2D
 
 
+func _ready():
+	$Start.grab_focus()
+
 func _on_start_pressed():
 	#Start the game
 	print("start the game")

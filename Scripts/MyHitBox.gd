@@ -20,6 +20,8 @@ func _init():
 func  _ready():
 	get_node("HitBox").disabled = true
 	calculateDamage()
+	Game.input_scheme_changed.connect(_on_input_scheme_changed)
+	
 	
 
 func _process(delta):
@@ -39,19 +41,19 @@ func calculateDamage():
 	print(damageModifier)
 	damage = damage + damageModifier
 		
-func update_hitbox_rotation(delta) -> void:
+func update_hitbox_rotation(delta, force_update_position = false) -> void:
 	if Game.INPUT_SCHEME == Game.INPUT_SCHEMES.KEYBOARD_AND_MOUSE:
 		look_at(get_global_mouse_position())
 		crosshair.hide()
 		
 	elif Game.INPUT_SCHEME == Game.INPUT_SCHEMES.GAMEPAD:
 		var aim_direction := Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
-		crosshair.show()
 		if aim_direction != Vector2.ZERO:
 			var angle = aim_direction.angle()
 			self.global_rotation = angle
 			crosshair.global_position = global_position + (Vector2(cos(angle), sin(angle)) * crosshair_range)
 		crosshair.global_rotation = 0
+		crosshair.show()
 		
 	if Input.is_action_just_pressed("melee") and isAttacking == false:
 		isAttacking = true
@@ -64,3 +66,11 @@ func update_hitbox_rotation(delta) -> void:
 		get_node("HitBox").disabled = true
 		get_node("Sprite2D").visible = false
 		isAttacking = false
+		
+func _on_input_scheme_changed(scheme):
+	if scheme == Game.INPUT_SCHEMES.GAMEPAD:
+		print("scheme changed")
+		
+		update_hitbox_rotation(0, true)
+	else:
+		pass
